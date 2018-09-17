@@ -1,35 +1,51 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { FormLabel, Icon, Text, Slider } from 'react-native-elements'
+import { StyleSheet, Button, View } from 'react-native';
+import { Slider } from 'react-native-elements'
+import GradeInputButtons from './GradeInputButtons';
+import TestDescription from './TestDescription';
 
 export default class GradeInput extends React.Component {
 
-constructor(props){
-    super(props);
-    this.state = { 
-        value: 0
-    
+    constructor(props){
+        super(props);
+        this.state = {
+            grade: 0,
+        }
     }
-}
+
+    incrementGrade = () => {
+        this.setState({grade: this.state.grade === 100 ? 100 : this.state.grade + 0.5});
+    }
+
+    decrementGrade = () => {
+        this.setState({grade: this.state.grade === 0 ? 0 : this.state.grade - 0.5});
+    }
 
   render() {
     return (
-        <View style={{flex:1, flexDirection:'row', justifyContent:'space-around', alignItems:'center'}}>
-        <Icon
-            reverse
-            name='ios-remove'
-            type='ionicon'
-            color='#517fa4'
+      <View style={styles.wrapper}>
+        <TestDescription 
+            grade={this.state.grade}
         />
-        <Text>Hello</Text>
-        <Icon
-            reverse
-            name='ios-add'
-            type='ionicon'
-            color='#517fa4'
+        <Slider
+            value= {this.state.grade}
+            onValueChange={value => this.setState({grade: value})}
+            maximumValue={100}
+            step={1}
+        />
+        <GradeInputButtons 
+            incrementGrade={this.incrementGrade}
+            decrementGrade={this.decrementGrade}
+            grade={this.state.grade}
+        
         />
       </View>
-
     );
   }
 }
+
+const styles = StyleSheet.create({
+    wrapper: {
+      padding: 60
+    },
+  });
