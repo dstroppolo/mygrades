@@ -12,9 +12,7 @@ export default class Login extends React.Component {
     }
 
     getGradeColor = grade => {
-        console.log(grade);
-
-            if(grade <50){
+            if(grade < 50){
                 return "#f20000";
             } else 
             if(grade < 80){
@@ -31,8 +29,8 @@ export default class Login extends React.Component {
     let gradeColor = this.getGradeColor(this.props.grade);
     return (
       <View style={{paddingBottom:60}}>
-        <Text h2>
-           Entering for: SOEN343 - Assignment 2
+        <Text h2 style={{color: '#f9f9f9'}}>
+           SOEN343 - Assignment 2
         </Text>
         <Text h3 style={{textAlign:'center', color: gradeColor}}>
             {this.props.grade}%

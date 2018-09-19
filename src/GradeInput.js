@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Button, View } from 'react-native';
-import { Slider } from 'react-native-elements'
+import { StyleSheet, View } from 'react-native';
+import { Slider, Button } from 'react-native-elements'
 import GradeInputButtons from './GradeInputButtons';
 import TestDescription from './TestDescription';
 
@@ -37,7 +37,14 @@ export default class GradeInput extends React.Component {
             incrementGrade={this.incrementGrade}
             decrementGrade={this.decrementGrade}
             grade={this.state.grade}
-        
+        />
+        <Button
+            raised
+            large
+            title="Submit"
+            borderRadius={50}
+            containerViewStyle={{marginTop:75, borderRadius:50}}
+            backgroundColor={'#42e573'}
         />
       </View>
     );
@@ -46,6 +53,7 @@ export default class GradeInput extends React.Component {
 
 const styles = StyleSheet.create({
     wrapper: {
-      padding: 60
-    },
+      padding: 60,
+      
+    }
   });
