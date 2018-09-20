@@ -1,29 +1,40 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { View, SafeAreaView, ScrollView } from 'react-native';
 import GradeInput from './src/GradeInput';
 import Login from './src/Login';
-import AppHeader from './src/Header';
-import { createDrawerNavigator } from 'react-navigation';
+import { createDrawerNavigator, DrawerItems } from 'react-navigation';
 
 export default class App extends React.Component {
-  render() {
+
+  render(){
     return (
-      <View style={styles.container}>
-        <RootStack />
-      </View> 
-    );
+        <DrawerNav />
+    )
   }
+
+
 }
 
-const RootStack = createDrawerNavigator({
-  Home: {
-    screen: GradeInput
-  }
-})
+const CustomDrawerComponent = (props) => (
+  <SafeAreaView style={{flex:1}}>
+    <ScrollView>
+      <DrawerItems {...props} />
+    </ScrollView>
+  </SafeAreaView>
+)
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#303030',
+const DrawerNav = createDrawerNavigator({
+  Home: {
+    screen: Login,
+
   },
+  GradeInput: {
+    screen: GradeInput,
+  },
+}, {
+  contentComponent: CustomDrawerComponent,
+  drawerPosition: "right",
+  drawerOpenRoute: 'DrawerOpen',
+  drawerCloseRoute: 'DrawerClose',
+  drawerToggleRoute: 'DrawerToggle'
 });

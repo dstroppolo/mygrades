@@ -1,8 +1,11 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { Slider, Button } from 'react-native-elements'
 import GradeInputButtons from './GradeInputButtons';
 import TestDescription from './TestDescription';
+import AppHeader from './Header';
+import styles from './styles';
+
 
 export default class GradeInput extends React.Component {
 
@@ -23,6 +26,8 @@ export default class GradeInput extends React.Component {
 
   render() {
     return (
+      <View style={styles.main}>
+        <AppHeader title="Grade Input" />
       <View style={styles.wrapper}>
         <TestDescription 
             grade={this.state.grade}
@@ -46,14 +51,8 @@ export default class GradeInput extends React.Component {
             containerViewStyle={{marginTop:75, borderRadius:50}}
             backgroundColor={'#42e573'}
         />
+        </View>
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-    wrapper: {
-      padding: 60,
-      
-    }
-  });

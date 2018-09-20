@@ -1,8 +1,9 @@
 import React from 'react';
 import { DrawerLayoutAndroid, Text, View } from 'react-native';
-import { Header } from 'react-native-elements'
+import { Header, Icon } from 'react-native-elements'
+import { withNavigation } from 'react-navigation';
 
-export default class AppHeader extends React.Component {
+class AppHeader extends React.Component {
 
 
     navigationView = () => {
@@ -15,11 +16,13 @@ export default class AppHeader extends React.Component {
     
         <View>
     <Header
-        rightComponent={{ icon: 'menu', color: '#fff' }}
-        centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
+        rightComponent={<Icon name="menu" color="#fff" onPress={() => this.props.navigation.openDrawer() }/> }
+        centerComponent={{ text: this.props.title, style: { color: '#fff' } }}
         backgroundColor={"#050505"}
-      />
+      /> 
       </View>
     ); 
   }
 }
+
+export default withNavigation(AppHeader);
