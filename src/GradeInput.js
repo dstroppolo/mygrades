@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, ScrollView, Image } from 'react-native';
 import { Slider, Button } from 'react-native-elements'
 import GradeInputButtons from './GradeInputButtons';
 import TestDescription from './TestDescription';
@@ -27,6 +27,8 @@ export default class GradeInput extends React.Component {
   render() {
     return (
       <View style={styles.main}>
+        <ScrollView>
+
         <AppHeader title="Grade Input" />
       <View style={styles.wrapper}>
         <TestDescription 
@@ -52,6 +54,8 @@ export default class GradeInput extends React.Component {
             backgroundColor={'#42e573'}
         />
         </View>
+        </ScrollView>
+
       </View>
     );
   }

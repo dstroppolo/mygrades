@@ -4,14 +4,6 @@ import { FormLabel, Icon, Slider } from 'react-native-elements'
 
 export default class GradeInputButtons extends React.Component {
 
-constructor(props){
-    super(props);
-    this.state = { 
-        value: 0
-    
-    }
-}
-
   render() {
     return (
         <View style={styles.container}>
@@ -41,6 +33,5 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        //marginBottom: 100
     },
   });
