@@ -1,50 +1,52 @@
 import React from 'react';
 import { ScrollView, View } from 'react-native';
 import { FormLabel, Icon, FormInput, Button, Text } from 'react-native-elements';
+import { Container, Content, Item, Input, Label } from 'native-base';
+
 import styles from './styles';
 
 import AppHeader from './Header';
 
 
-export default class AddClasses extends React.Component {
+export default class AddSemesters extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
-            classInputs: ['']
+            semesterInputs: ['']
         }
     }
 
     addClassInput = () => {
-        this.state.classInputs.push('')
-        this.setState({classInputs: this.state.classInputs}, () => this[`ci${this.state.classInputs.length-1}`].focus());
+        this.state.semesterInputs.push('')
+        this.setState({semesterInputs: this.state.semesterInputs}, () => this[`ci${this.state.semesterInputs.length-1}`].focus());
     }
 
     removeClassInput = pos => {
-        this.state.classInputs.splice(pos, 1);
-        this.setState({classInputs: this.state.classInputs});
+        this.state.semesterInputs.splice(pos, 1);
+        this.setState({semesterInputs: this.state.semesterInputs});
     }
 
-    setClassInputState = (text, index) => {
-        let ci = this.state.classInputs
+    setSemesterInputState = (text, index) => {
+        let ci = this.state.semesterInputs
         ci[index] = text;
-        this.setState({classInputs: ci});
+        this.setState({semesterInputs: ci});
     }
 
 
     render() {
-        let inputs = this.state.classInputs.map( (input, i) => {
+        let inputs = this.state.semesterInputs.map( (input, i) => {
             return (
                 <View key={i} style={{paddingTop:20}}>
                     {i > 0 && 
                     <View style={{flexDirection:'row', alignItems:'center'}}>
-                        <FormLabel labelStyle={{marginTop:0}}>Enter another class</FormLabel>
+                        <FormLabel labelStyle={{marginTop:0}}>Enter another semester</FormLabel>
                         <Icon name='close' type='fontawesome' onPress={() => this.removeClassInput(i)} />
                     </View>}
                     <FormInput 
                         value={input} 
                         key={i} 
-                        onChangeText={ text => this.setClassInputState(text, i) } 
+                        onChangeText={ text => this.setSemesterInputState(text, i) } 
                         ref={ ci => this[`ci${i}`] = ci}    
                     />
                 </View>
@@ -52,14 +54,15 @@ export default class AddClasses extends React.Component {
         })
 
         return (
-            <View style={styles.main}>
-                <AppHeader title="Add Classes" />
-                <View style={{flex:1, justifyContent:'flex-start'}}>
-                    <ScrollView>
-                    <View>
-                        <FormLabel>Add a new class to your semester</FormLabel>
+            <Container style={styles.main}>
+                
+                <AppHeader title="Add Semesters" />
+                
+                <Content>
+                    <Content>
+                        <FormLabel>Add a new semester</FormLabel>
                         {inputs}
-                    </View>
+                    </Content>
 
                     <Icon
                         reverse
@@ -70,7 +73,7 @@ export default class AddClasses extends React.Component {
                         onPress={() => this.addClassInput()}
 
                     />
-                    </ScrollView>
+
                     <View style={{marginTop: 40,bottom: 25,alignSelf:'center', width:'60%'}}>
                     <Button 
                         title="Add all"
@@ -83,8 +86,8 @@ export default class AddClasses extends React.Component {
 
                     </View>
 
-                </View>
-            </View>
+                </Content>
+            </Container>
         )
     }
 }

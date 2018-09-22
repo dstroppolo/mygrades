@@ -1,28 +1,26 @@
 import React from 'react';
-import { DrawerLayoutAndroid, Text, View } from 'react-native';
-import { Header, Icon } from 'react-native-elements'
+import { Container, Header, Body, Right, Button, Icon, Title } from 'native-base';
+
 import { withNavigation } from 'react-navigation';
+
 
 class AppHeader extends React.Component {
 
-
-    navigationView = () => {
-        return (<View style={{flex: 1, backgroundColor: '#fff'}}>
-          <Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>I'm in the Drawer!</Text>
-        </View>)
+    render() {
+        return (
+                <Header style={{paddingTop:50, paddingBottom:25, marginBottom: 30, backgroundColor: "#050505"}}>
+                    <Body>
+                        <Title>{this.props.title}</Title>
+                    </Body>
+                    <Right>
+                        <Button transparent onPress={() => this.props.navigation.openDrawer() }>
+                            <Icon name='menu' />
+                        </Button>
+                    </Right>
+                  </Header>
+        )
     }
-  render() {
-    return (
-    
-        <View>
-    <Header
-        rightComponent={<Icon name="menu" color="#fff" onPress={() => this.props.navigation.openDrawer() }/> }
-        centerComponent={{ text: this.props.title, style: { color: '#fff' } }}
-        backgroundColor={"#050505"}
-      /> 
-      </View>
-    ); 
-  }
 }
+              
 
 export default withNavigation(AppHeader);

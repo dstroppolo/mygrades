@@ -1,7 +1,6 @@
 import React from 'react';
-import { Container, Content, Item, Input, Label } from 'native-base';
 import Divider from './StyledComponents/Divider';
-
+import { Container, Content, Item, Input, Label } from 'native-base';
 
 import AppHeader from './Header';
 import { auth } from './firebase';
@@ -14,21 +13,31 @@ export default class Register extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      name:'',
       password:'',
       email: ''
     }
   }
 
-  signInUserWithEmail = () => {
-    let { password, email } = this.state;
-    auth.signInUserWithEmail(email, password);
+  addNewUser = () => {
+    let { name, password, email } = this.state;
+    auth.createUserWithEmailAndPassword(email, password);
   }
 
   render() {
     return (
-      <Container style={styles.main}>
+        <Container style={styles.main}>
         <AppHeader title="Register" />
+
         <Content style={{marginLeft:40, marginRight:40}}>
+
+            <Item stackedLabel>
+                <Label>First Name</Label>
+                <Input onChangeText={text => this.setState({name:text})} />
+            </Item>
+            
+            <Divider />
+
             <Item stackedLabel>
                 <Label>Email</Label>
                 <Input onChangeText={text => this.setState({email:text})} />
@@ -43,7 +52,7 @@ export default class Register extends React.Component {
           
           <SubmitButton title="Submit" function={ () => this.signInUserWithEmail() } containerStyles={{marginTop:40}}/>
         </Content>
-      </Container>
+        </Container>
 
     );
   }

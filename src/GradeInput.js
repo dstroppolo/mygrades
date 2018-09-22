@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView, Image } from 'react-native';
-import { Slider, Button } from 'react-native-elements'
+import { Slider, Text } from 'react-native-elements'
 import GradeInputButtons from './GradeInputButtons';
 import TestDescription from './TestDescription';
 import AppHeader from './Header';
 import styles from './styles';
-
+import SubmitButton from './StyledComponents/SubmitButton';
 
 export default class GradeInput extends React.Component {
 
@@ -45,14 +45,7 @@ export default class GradeInput extends React.Component {
             decrementGrade={this.decrementGrade}
             grade={this.state.grade}
         />
-        <Button
-            raised
-            large
-            title="Submit"
-            borderRadius={50}
-            containerViewStyle={{marginTop:75, borderRadius:50}}
-            backgroundColor={'#42e573'}
-        />
+        <SubmitButton title="Submit" />
         </View>
         </ScrollView>
 
