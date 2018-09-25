@@ -4,6 +4,6 @@ export default styles = {
         backgroundColor: '#303030',
     },
     wrapper: {
-        padding: 60,
+        padding: 30,
     }
 }

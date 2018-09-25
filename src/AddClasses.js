@@ -1,9 +1,8 @@
 import React from 'react';
-import { ScrollView, View } from 'react-native';
-import { FormLabel, Icon, FormInput, Button, Text } from 'react-native-elements';
+import { Container, Content, Item, Form, Button, Icon, Text, Label, Input } from "native-base";
 import styles from './styles';
-
-import AppHeader from './Header';
+import { Dropdown } from 'react-native-material-dropdown';
+import Divider from './StyledComponents/Divider';
 
 
 export default class AddClasses extends React.Component {
@@ -11,80 +10,65 @@ export default class AddClasses extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            classInputs: ['']
+            newClassInput: '',
+            enteringClass: false,
+            selectClassInput: ''
         }
     }
 
+
+
     addClassInput = () => {
-        this.state.classInputs.push('')
-        this.setState({classInputs: this.state.classInputs}, () => this[`ci${this.state.classInputs.length-1}`].focus());
+        return (
+            <Content>
+                <Form>
+                <Item stackedLabel last>
+                    <Label>Class name</Label>
+                    <Input onChangeText = { text => this.setState({newClassInput: text}) }  />
+                </Item>
+                </Form>
+                <Divider />
+            </Content>
+                
+        )
     }
-
-    removeClassInput = pos => {
-        this.state.classInputs.splice(pos, 1);
-        this.setState({classInputs: this.state.classInputs});
-    }
-
-    setClassInputState = (text, index) => {
-        let ci = this.state.classInputs
-        ci[index] = text;
-        this.setState({classInputs: ci});
-    }
-
 
     render() {
-        let inputs = this.state.classInputs.map( (input, i) => {
-            return (
-                <View key={i} style={{paddingTop:20}}>
-                    {i > 0 && 
-                    <View style={{flexDirection:'row', alignItems:'center'}}>
-                        <FormLabel labelStyle={{marginTop:0}}>Enter another class</FormLabel>
-                        <Icon name='close' type='fontawesome' onPress={() => this.removeClassInput(i)} />
-                    </View>}
-                    <FormInput 
-                        value={input} 
-                        key={i} 
-                        onChangeText={ text => this.setClassInputState(text, i) } 
-                        ref={ ci => this[`ci${i}`] = ci}    
-                    />
-                </View>
-            )
-        })
+
+        let data = [{
+            value: 'SOEN 343',
+          }, {
+            value: 'SOEN 342',
+          }, {
+            value: 'COMP 335',
+          }];
 
         return (
-            <View style={styles.main}>
-                <AppHeader title="Add Classes" />
-                <View style={{flex:1, justifyContent:'flex-start'}}>
-                    <ScrollView>
-                    <View>
-                        <FormLabel>Add a new class to your semester</FormLabel>
-                        {inputs}
-                    </View>
-
-                    <Icon
-                        reverse
-                        name='ios-add'
-                        type='ionicon'
-                        color='#517fa4'
-                        containerStyle={{alignSelf:'center'}}
-                        onPress={() => this.addClassInput()}
-
+            <Container style={{...styles.main}}>
+                <Content style={{...styles.wrapper}}>
+                    <Dropdown
+                        label='Select a class'
+                        data={data}
+                        baseColor="#fff"
+                        textColor="#fff"
+                        selectedItemColor="#c4c4c4"
+                        itemColor="#fff"
+                        pickerStyle={{backgroundColor:"#050505"}}
+                        onChangeText={ value => this.setState({ selectClassInput: value }) }
                     />
-                    </ScrollView>
-                    <View style={{marginTop: 40,bottom: 25,alignSelf:'center', width:'60%'}}>
+                    <Divider label="OR" />
+                    { this.state.enteringClass && this.addClassInput()  }
                     <Button 
-                        title="Add all"
-                        raised
-                        large
-                        borderRadius={50}
-                        buttonStyle={{borderRadius:50}}
-                        backgroundColor={'#42e573'}
-                    />
-
-                    </View>
-
-                </View>
-            </View>
+                        primary
+                        rounded
+                        iconLeft
+                        block
+                        onPress = { () => this.setState({ enteringClass: true })}
+                    >
+                    <Icon type="MaterialIcons" name='add' /><Text> {this.state.enteringClass ? "Submit new class" : "Add a new class"} </Text></Button>
+                    { this.state.enteringClass && <Button rounded danger style={{alignSelf:"center", marginTop: 12}} onPress={ () => this.setState({newClassInput: '', enteringClass: false})}><Text>Cancel</Text></Button>}
+                </Content>
+            </Container>
         )
     }
 }

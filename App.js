@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, SafeAreaView, ScrollView, Text } from 'react-native';
-
+console.disableYellowBox = true;
 import GradeInput from './src/GradeInput';
 import Register from './src/Register';
 import AddClasses from './src/AddClasses';
 import Logout from './src/Logout';
-import AddSemesters from './src/AddSemesters';
+import NewInfoInput from './src/NewInfoInput';
 import AddClasswork from './src/AddClasswork';
 
 import { auth } from './src/firebase';
@@ -69,8 +69,8 @@ const CustomDrawerComponent = (props) => (
 
 const renderNavDrawer = uid => {
   let routes = {
-    "Add Semesters": {
-      screen: AddSemesters
+    "Enter Schedule": {
+      screen: NewInfoInput
     },
     "Add Classes": {
       screen: AddClasses,
