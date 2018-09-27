@@ -54,7 +54,7 @@ export default class HeaderTabs extends React.Component {
                 this.setState({loading: false});
             });
     }
-
+    
     getGradeInfo = async () => {
         if(this.props.user.uid){
             let gradeData = await firestore.getGradeInfo(this.props.user.uid);
@@ -91,7 +91,11 @@ export default class HeaderTabs extends React.Component {
                 />
               </Tab>
               <Tab heading={ <TabHeading><Icon  type="MaterialIcons" name="grade" /><Text>Grades</Text></TabHeading>}>
-                <AddClasswork selectedSemester={this.state.activeSemester} selectedClass={this.state.activeClass} />
+                <AddClasswork 
+                    selectedSemester={this.state.activeSemester} 
+                    selectedClass={this.state.activeClass} 
+                    listInfo={this.state.activeSemester && this.state.gradeData[this.state.activeSemester] && this.state.gradeData[this.state.activeSemester][this.state.activeClass] ? this.state.gradeData[this.state.activeSemester][this.state.activeClass] : {} }                    
+                />
               </Tab>
             </Tabs>
       );
