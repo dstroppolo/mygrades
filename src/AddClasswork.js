@@ -1,6 +1,7 @@
 import React from 'react';
-import { KeyboardAvoidingView } from 'react-native';
-import { Container, Content, Item, Form, Button, Icon, Text, Label, Input, List, ListItem, Left, Body, Right, } from "native-base";
+import { View } from 'react-native';
+import { Container, Content as StaticContent, Item, Form, Button, Icon, Text, Label, Input, List, ListItem, Left, Body, Right, Spinner, } from "native-base";
+import Content from './Content';
 
 import styles from './styles';
 
@@ -11,22 +12,25 @@ export default class AddClasswork extends React.Component {
         super(props);
         this.state = {
             editingWeight: null,
-            enteringInput: false
+            enteringInput: false,
+            newInput: '',
+            newWeight: '',
+            deletingItem: false
         }
     }
 
     addInput = () => {
         return (
-            <Content>
+            <View style={{marginTop: 12}}>
                 <Form>
-                <Item stackedLabel last>
-                    <Label style={{color:"#fff"}}>{this.props.inputName} name</Label>
-                    <Input style={{color:"#fff"}} onChangeText = { text => this.setState({newInput: text}) }  />                    
-                </Item>
+                    <Item inlineLabel last style={{flexDirection:'row'}}>
+                        <Input style={{color:"#fff"}} onChangeText = { text => this.setState({newInput: text}) } placeholder="Name" /> 
+                        <Button success><Icon color="#fff" type="MaterialIcons" name='save' onPress={ async () => { await this.props.createNewInput(this.state.newInput); this.setState({enteringInput: false}) }}/></Button>
+                        <Button danger style={{marginLeft: 6}} onPress={ () => this.setState({newInput: '', enteringInput: false})}><Icon color="#fff" type="MaterialIcons" name='cancel' /></Button>
+                    </Item>
                 </Form>
                 <Divider />
-            </Content>
-                
+            </View>
         )
     }
 
@@ -40,10 +44,17 @@ export default class AddClasswork extends React.Component {
                     <Body>
                         <Text style={{color:"#fff"}}>{itemKey}</Text>
                     </Body>
-                    <Right style={{width:50, backgroundColor: 'red'}}>
-                        <Button full onPress={() => {this.setState({editingWeight: i})} } primary={this.state.editingWeight !== i} success={this.state.editingWeight === i} >
+                    <Right>
+
+                        {this.state.deletingItem ? 
+                        <Button full onPress={() => {this.props.removeAssignment(itemKey)} }  danger >
+                            <Text><Icon color="#fff" type="MaterialIcons" name='cancel' /></Text>
+                        </Button> :
+                        <Button full onPress={ this.state.editingWeight || this.state.editingWeight === 0 ? () => {this.props.addAssignmentWeight(this.state.newWeight, itemKey); this.setState({editingWeight: null}) }: () => this.setState({editingWeight: i}) } primary={this.state.editingWeight !== i} success={this.state.editingWeight === i} >
                             <Text>{this.state.editingWeight === i ? <Icon color="#fff" type="MaterialIcons" name='save' /> : `${items[itemKey]}%`}</Text>
                         </Button>
+                        }
+
                     </Right>
                 </ListItem>
             )
@@ -53,11 +64,12 @@ export default class AddClasswork extends React.Component {
         <ListItem key={1000} last>
             <Body>
                 <Form>
-                    <Item inlineLabel last>
-                        <Label>Enter weight</Label>
+                    <Item last>
                         <Input 
+                            placeholder="Enter Weight"
                             keyboardType="numeric"
                             style={{color: "#fff"}}
+                            onChangeText={ text => this.setState({newWeight: text})}
                         />
                     </Item>
                 </Form>
@@ -81,24 +93,39 @@ export default class AddClasswork extends React.Component {
         return (
 
             <Container style={styles.main}>
-                <Content style={styles.wrapper}>
+                <Content styles={styles.wrapper}>
                     { !!this.props.selectedSemester && <Text style={{color:"#fff"}}>Current Semester: {this.props.selectedSemester}</Text>}
                     { !!this.props.selectedClass && <Text style={{color:"#fff"}}>Current Class: {this.props.selectedClass}</Text>}
+                    { this.state.enteringInput && this.addInput() }
                     <List>
                         { this.renderListItems() }
                     </List>
-                    { this.state.enteringInput && this.addInput() }
+                    { this.props.loading && <Spinner />}
                     <Divider />
+                    {!this.state.enteringInput &&
                     <Button 
                         primary
                         iconLeft
                         block
-                        disabled = { this.props.loading || (this.props.inputName==='Class' && !this.props.selectedSemester) }
-                        onPress = { this.state.enteringInput ? async () => { await this.props.createNewInput(this.state.newInput); this.props.setActiveTab(this.props.nextTab) } :  () =>  this.setState({ selectInput: '', enteringInput: true })}
+                        disabled={this.props.loading}
+                        onPress = { () =>  this.setState({ enteringInput: true, editingWeight: null })}
                     >
-                        { this.props.loading ? <Spinner /> : <Icon type="MaterialIcons" name='add' /> }
-                        <Text> {this.state.enteringInput ? `Submit new ${this.props.inputName}` : `Add a new ${this.props.inputName}`} </Text>
+                        <Icon type="MaterialIcons" name='add' />
+                        <Text>Add a new classwork</Text>
+                    </Button>}
+                    {!this.state.enteringInput &&
+                    <Button 
+                        danger
+                        iconLeft
+                        block
+                        disabled={this.props.loading}
+                        onPress = { () =>  this.setState({ deletingItem: !this.state.deletingItem })}
+                        style={{marginTop: 12}}
+                    >   
+                        { !this.state.deletingItem && <Icon type="MaterialIcons" name="remove" /> }
+                        <Text>{ this.state.deletingItem ? "Cancel" : "Remove a new classwork" }</Text>
                     </Button>
+                    }
                 </Content>
             </Container>
         )

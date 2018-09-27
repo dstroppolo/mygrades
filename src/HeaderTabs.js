@@ -54,6 +54,35 @@ export default class HeaderTabs extends React.Component {
                 this.setState({loading: false});
             });
     }
+
+    addNewAssignment = async assignmentName => {
+        this.setState({loading: true});
+        firestore.addNewAssignment(assignmentName, this.state.activeClass, this.state.activeSemester, this.props.user.uid)
+            .then( () => {
+                this.getGradeInfo();
+                this.setState({loading: false});
+            });
+    }
+
+    removeAssignment = async assignmentName => {
+        this.setState({loading: true});
+        firestore.removeAssignment(assignmentName, this.state.activeClass, this.state.activeSemester, this.props.user.uid)
+            .then( () => {
+                this.getGradeInfo();
+                this.setState({loading: false});
+            });
+    }
+
+    addAssignmentWeight = async (assignmentWeight, assignmentName) => {
+        console.log(assignmentWeight);
+        console.log(assignmentName);
+        this.setState({loading: true});
+        firestore.addAssignmentWeight(assignmentWeight, assignmentName, this.state.activeClass, this.state.activeSemester, this.props.user.uid)
+            .then( () => {
+                this.getGradeInfo();
+                this.setState({loading: false});
+            });
+    }
     
     getGradeInfo = async () => {
         if(this.props.user.uid){
@@ -94,8 +123,12 @@ export default class HeaderTabs extends React.Component {
                 <AddClasswork 
                     selectedSemester={this.state.activeSemester} 
                     selectedClass={this.state.activeClass} 
+                    createNewInput={this.addNewAssignment}
                     listInfo={this.state.activeSemester && this.state.gradeData[this.state.activeSemester] && this.state.gradeData[this.state.activeSemester][this.state.activeClass] ? this.state.gradeData[this.state.activeSemester][this.state.activeClass] : {} }                    
-                />
+                    loading={this.state.loading}
+                    removeAssignment={this.removeAssignment}
+                    addAssignmentWeight={this.addAssignmentWeight}
+               />
               </Tab>
             </Tabs>
       );
