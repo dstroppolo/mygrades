@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Container, Content as StaticContent, Item, Form, Button, Icon, Text, Label, Input, List, ListItem, Left, Body, Right, Spinner, } from "native-base";
 import Content from './Content';
 
-import styles from './styles';
+import styles from '../styles';
 
 
 export default class AddClasswork extends React.Component {
@@ -51,7 +51,7 @@ export default class AddClasswork extends React.Component {
                             <Text><Icon color="#fff" type="MaterialIcons" name='cancel' /></Text>
                         </Button> :
                         <Button full onPress={ this.state.editingWeight || this.state.editingWeight === 0 ? () => {this.props.addAssignmentWeight(this.state.newWeight, itemKey); this.setState({editingWeight: null}) }: () => this.setState({editingWeight: i}) } primary={this.state.editingWeight !== i} success={this.state.editingWeight === i} >
-                            <Text>{this.state.editingWeight === i ? <Icon color="#fff" type="MaterialIcons" name='save' /> : `${items[itemKey]}%`}</Text>
+                            <Text>{this.state.editingWeight === i ? <Icon color="#fff" type="MaterialIcons" name='save' /> : items[itemKey].weight ? `${items[itemKey].weight}%` : "0%" }</Text>
                         </Button>
                         }
 
@@ -107,7 +107,7 @@ export default class AddClasswork extends React.Component {
                         primary
                         iconLeft
                         block
-                        disabled={this.props.loading}
+                        disabled={this.props.loading || (!this.props.selectedClass || !this.props.selectedSemester) }
                         onPress = { () =>  this.setState({ enteringInput: true, editingWeight: null })}
                     >
                         <Icon type="MaterialIcons" name='add' />
@@ -118,7 +118,7 @@ export default class AddClasswork extends React.Component {
                         danger
                         iconLeft
                         block
-                        disabled={this.props.loading}
+                        disabled={ this.props.loading || Object.keys(this.props.listInfo).length === 0 }
                         onPress = { () =>  this.setState({ deletingItem: !this.state.deletingItem })}
                         style={{marginTop: 12}}
                     >   

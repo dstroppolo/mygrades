@@ -1,9 +1,9 @@
 import React from 'react';
-import { Container, Header, Tab, Tabs, TabHeading, Icon, Text } from 'native-base';
+import { Tab, Tabs, TabHeading, Icon, Text } from 'native-base';
 import AddInput from './AddInput';
 import AddClasswork from './AddClasswork';
 
-import { firestore } from './firebase/index';
+import { firestore } from '../firebase';
 
 export default class HeaderTabs extends React.Component {
 
@@ -119,7 +119,7 @@ export default class HeaderTabs extends React.Component {
                     listInfo={this.state.activeSemester && this.state.gradeData[this.state.activeSemester] ? Object.keys(this.state.gradeData[this.state.activeSemester]) : [] }
                 />
               </Tab>
-              <Tab heading={ <TabHeading><Icon  type="MaterialIcons" name="grade" /><Text>Grades</Text></TabHeading>}>
+              <Tab heading={ <TabHeading><Icon  type="MaterialIcons" name="work" /><Text>Work</Text></TabHeading>}>
                 <AddClasswork 
                     selectedSemester={this.state.activeSemester} 
                     selectedClass={this.state.activeClass} 

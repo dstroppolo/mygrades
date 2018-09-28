@@ -1,12 +1,11 @@
 import React from 'react';
 import Divider from './StyledComponents/Divider';
-import { Container, Content, Item, Input, Label } from 'native-base';
+import { Container, Content, Item, Input, Label, Button } from 'native-base';
 
 import AppHeader from './Header';
 import { auth } from './firebase';
 import styles from './styles';
 
-import SubmitButton from './StyledComponents/SubmitButton';
 
 export default class Register extends React.Component {
 
@@ -50,7 +49,7 @@ export default class Register extends React.Component {
                 <Input secureTextEntry={true} onChangeText= { text => this.setState({password:text}) } />
             </Item>
           
-          <SubmitButton title="Submit" function={ () => this.signInUserWithEmail() } containerStyles={{marginTop:40}}/>
+          <Button success full large title="Submit" onPress={ () => this.signInUserWithEmail() } containerStyles={{marginTop:40}}/>
         </Content>
         </Container>
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container, Content, Item, Form, Button, Icon, Text, Label, Input, Spinner } from "native-base";
-import styles from './styles';
+import styles from '../styles';
 import { Dropdown } from 'react-native-material-dropdown';
-import Divider from './StyledComponents/Divider';
+import Divider from '../StyledComponents/Divider';
 
 
 export default class AddInput extends React.Component {

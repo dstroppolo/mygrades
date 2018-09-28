@@ -1,12 +1,11 @@
 import React from 'react';
 import { View, SafeAreaView, ScrollView, Text } from 'react-native';
 console.disableYellowBox = true;
-import GradeInput from './src/GradeInput';
+import AddGrades from './src/GradesInput/AddGrades';
 import Register from './src/Register';
-import AddClasses from './src/AddClasses';
 import Logout from './src/Logout';
-import NewInfoInput from './src/NewInfoInput';
-import AddClasswork from './src/AddClasswork';
+import NewInfoInput from './src/ScheduleInput/NewInfoInput';
+import NewGradesInput from './src/GradesInput/NewGradesInput';
 
 import { auth } from './src/firebase';
 
@@ -48,7 +47,7 @@ export default class App extends React.Component {
     let DrawerNav = renderNavDrawer(this.state.user.uid);
 
     return (
-        this.state.loading ? <Text> Hello </Text> : <DrawerNav screenProps={{user: this.state.user, hello: this.state.hello}} />
+        this.state.loading ? <Text> Hello </Text> : <DrawerNav screenProps={{user: this.state.user}} />
     )
   }
 
@@ -69,17 +68,12 @@ const CustomDrawerComponent = (props) => (
 
 const renderNavDrawer = uid => {
   let routes = {
+    
+    "Add Grades": {
+      screen: NewGradesInput
+    },
     "Enter Schedule": {
       screen: NewInfoInput
-    },
-    "Add Classes": {
-      screen: AddClasses,
-    },
-    "Add Classwork": {
-      screen: AddClasswork
-    },
-    "Grade Input": {
-      screen: GradeInput,
     },
   };
 
