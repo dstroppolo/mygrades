@@ -59,15 +59,14 @@ export default class GradeInput extends React.Component {
             <Container style={styles.main}>
                 <Content>
 
-                    <List>
                         { Object.keys(this.props.scheduleData).length > 0 ? 
+                        
                             <List>
                                 { this.renderListItems() }
                             </List> :
                             <Spinner />
                         }
 
-                    </List>
                 </Content>
             </Container>
         );
