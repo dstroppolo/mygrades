@@ -55,3 +55,13 @@ export const addAssignmentWeight = (assignmentWeight, assignmentName, className,
         console.log('done')
     )
 }
+
+export const addAssignmentGrade = (assignmentGrade, assignmentName, className, semesterName, uid) => {
+    let semesterDocRef = firestore.collection('userGradeInfo').doc(uid);
+    return semesterDocRef.update({
+        [`${semesterName}.${className}.${assignmentName}.grade`]: assignmentGrade
+    })
+    .then( () => 
+        console.log('done')
+    )
+}

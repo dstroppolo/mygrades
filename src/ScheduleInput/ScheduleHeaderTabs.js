@@ -74,10 +74,9 @@ export default class HeaderTabs extends React.Component {
     }
 
     addAssignmentWeight = async (assignmentWeight, assignmentName) => {
-        console.log(assignmentWeight);
-        console.log(assignmentName);
         this.setState({loading: true});
-        firestore.addAssignmentWeight(assignmentWeight, assignmentName, this.state.activeClass, this.state.activeSemester, this.props.user.uid)
+        let aw = parseFloat(assignmentWeight.replace(",", "."));
+        firestore.addAssignmentWeight(aw, assignmentName, this.state.activeClass, this.state.activeSemester, this.props.user.uid)
             .then( () => {
                 this.getGradeInfo();
                 this.setState({loading: false});
