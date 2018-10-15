@@ -11,28 +11,33 @@ export default class HeaderTabs extends React.Component {
             activeTab: 0,
             allSemesters: [],
             activeSemester: '',
-            courses: [],
-            loading: false, 
+            courses: {},
+            loading: true, 
             gradeData: {}
         }
     }
 
-    componentDidMount = () => {
-        this.getGradeInfo();
+    componentDidMount = async () => {
+        await this.getGradeInfo();
     }
 
     getGradeInfo = async () => {
+        this.setState({loading: true});
         if(this.props.user.uid){
             let gradeData = await firestore.getGradeInfo(this.props.user.uid);
             let data =  gradeData.data();
             this.setState({
-                allSemesters: Object.keys(data)
-            })
-        }
+                allSemesters: Object.keys(data),
+                gradeData: data
+            }, () => this.setState({loading: false}));
+        }   
     }
 
     setActiveSemester = semester => {
-        this.setState({ activeSemester: semester})
+        this.setState({ 
+            activeSemester: semester,
+            courses: this.state.gradeData[semester],
+        });
     }
 
     setActiveTab = tab => {
@@ -55,6 +60,11 @@ export default class HeaderTabs extends React.Component {
               <Tab heading={ <TabHeading><Icon type="MaterialIcons" name="list" /><Text>Overview</Text></TabHeading>}>
                 <SampleChart 
                     allSemesters = {this.state.allSemesters}
+                    setActiveSemester = { this.setActiveSemester}
+                    courses = {Object.keys(this.state.courses)}
+                    loading = {this.state.loading}
+                    activeSemester = { this.state.activeSemester }
+                    gradeData = { this.state.gradeData }
                 />
               </Tab>
               <Tab heading={ <TabHeading><Icon type="MaterialIcons" name="grade" /><Text>By Class</Text></TabHeading>}>

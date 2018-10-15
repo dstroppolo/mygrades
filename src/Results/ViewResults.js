@@ -1,5 +1,4 @@
 import React from 'react'
-import { Grid, BarChart } from 'react-native-svg-charts'
 import { Container } from 'native-base';
 import AppHeader from '../Header';
 import HeaderTabs from './ResultsHeaderTabs';
