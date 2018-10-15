@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Container, Header, Content, Button, Icon, List, ListItem, Text } from 'native-base';
+import { Container, Header, Content, Button, Icon, List, ListItem, Text, Spinner } from 'native-base';
 import styles from '../styles';
 import Slider from 'react-native-slider';
 
@@ -45,8 +45,8 @@ export default class GradeInput extends React.Component {
                                 <Text>+0.5</Text>
                             </Button>
                         </View>
-                        <Button full success style={{marginTop: 16}} disabled={this.props.loading} onPress = { () => this.props.addAssignmentGrade(this.state.newGrade) }>
-                            <Text>Submit</Text>
+                        <Button full success style={{marginTop: 16}} disabled={this.props.loading} onPress = { async () => { await this.props.addAssignmentGrade(this.state.newGrade); this.props.setActiveTab(0) } }>
+                            {this.props.loading && <Spinner />}<Text>Submit</Text>
                         </Button>
                         <Button dark full style={{marginTop: 16}} onPress={ () => this.props.setActiveTab(0)}>
                             <Text>Back</Text>

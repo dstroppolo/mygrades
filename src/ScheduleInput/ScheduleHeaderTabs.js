@@ -36,13 +36,15 @@ export default class HeaderTabs extends React.Component {
     }
 
     addNewSemester = async newSemester => {
-        this.setState({loading: true});
-        await this.setActiveSemester(newSemester);
-        firestore.addNewSemester(this.state.activeSemester, this.props.user.uid)
-            .then( () => {
-                this.getGradeInfo();
-                this.setState({loading: false});
-            })
+        if(newSemester){
+            this.setState({loading: true});
+            await this.setActiveSemester(newSemester);
+            firestore.addNewSemester(this.state.activeSemester, this.props.user.uid)
+                .then( () => {
+                    this.getGradeInfo();
+                    this.setState({loading: false});
+                })
+        }
     }
 
     addNewClass = async newClass => {

@@ -5,6 +5,18 @@ import styles from '../styles';
 
 export default class GradeInput extends React.Component {
 
+    getTextColor = grade => {
+        if(grade < 50){
+            return 'red';
+        }
+        if(grade < 80){
+            return 'yellow';
+        }
+        if(grade <= 100){
+            return 'green';
+        }
+    }
+
     renderListItems = () => {
 
         let info = this.props.scheduleData;
@@ -18,15 +30,18 @@ export default class GradeInput extends React.Component {
             let workNames = classes.map( className => {
                 let works = Object.keys(info[semester][className]);
 
-                let items = works.map( work => {
+                let items = works.map( (work, index, array) => {
                     let workObject = info[semester][className][work];
                     workObject.name = work;
                     workObject.className = className;
                     workObject.semester = semester;
+                    let textColor = this.getTextColor(workObject.grade);
+                    let lastItem = index+1 === array.length;
+                    
                     return (
-                        <ListItem onPress={() => this.props.setActiveClassWork(workObject)}>
+                        <ListItem onPress={() => this.props.setActiveClassWork(workObject)} last={lastItem}>
                             <Left>
-                                <Text style={{color:"#fff"}}>{work} | </Text><Text style={{color:"green"}}>{ workObject.grade && `${workObject.grade}%`}</Text>
+                                <Text style={{color:"#fff"}}>{work} | </Text><Text style={{color:textColor}}>{ workObject.grade && `${workObject.grade}%`}</Text>
                             </Left>
                             <Right>
                                 <Icon name="arrow-forward" />

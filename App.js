@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, SafeAreaView, ScrollView, Text } from 'react-native';
 console.disableYellowBox = true;
-import AddGrades from './src/GradesInput/AddGrades';
 import Register from './src/Register';
 import Logout from './src/Logout';
 import NewInfoInput from './src/ScheduleInput/NewInfoInput';
 import NewGradesInput from './src/GradesInput/NewGradesInput';
+import Results from './src/Results/ViewResults';
 
 import { auth } from './src/firebase';
 
@@ -68,6 +68,9 @@ const CustomDrawerComponent = (props) => (
 
 const renderNavDrawer = uid => {
   let routes = {
+    "View Results": {
+      screen: Results
+    },
     
     "Add Grades": {
       screen: NewGradesInput
@@ -75,6 +78,7 @@ const renderNavDrawer = uid => {
     "Enter Schedule": {
       screen: NewInfoInput
     },
+
   };
 
   let drawerConfig = {
