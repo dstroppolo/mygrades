@@ -5,28 +5,80 @@ import { Dimensions } from 'react-native';
 import { VictoryBar, VictoryAxis, VictoryChart, VictoryTheme, VictoryStack, VictoryLabel } from "victory-native";
 import { Dropdown } from 'react-native-material-dropdown';
 import victoryChart from 'victory-native/lib/components/victory-chart';
+import { getGradeBars } from './Calculations';
 
 
 export default class OverviewChart extends React.PureComponent {
 
+
     formatDataSet = () => {
 
         let { courses, activeSemester, gradeData } = this.props;
-        let data = []
-        if(courses){
-            data = courses.map( course => {
+        let courseData = [];
+        if(gradeData[activeSemester]){
+            courseData = getGradeBars(gradeData[activeSemester]);
+        }
+        let data1 = [{course:"", grade: ""}];
+        let data2 = [{course:"", grade: ""}];
+        let data3 = [{course:"", grade: ""}];
+        if(courses.length){
+            data1 = courses.map( (course, i) => {
                 return ({
-                    course: course, grade: gradeData[activeSemester][course].currentAvg
+                    course: course, 
+                    grade: parseFloat(courseData[0][i])
+                })
+            })
+            data2 = courses.map( (course, i) => {
+                return ({
+                    course: course, 
+                    grade: parseFloat(courseData[1][i])
+                })
+            })
+            data3 = courses.map( (course, i) => {
+                return ({
+                    course: course, 
+                    grade: parseFloat(courseData[2][i])
                 })
             })
         }
-        return data;
+        return [data1, data2, data3];
+    }
+
+    renderBars = data => {
+        if(this.props.activeSemester){
+            return (
+                <VictoryStack colorScale={["red", "yellow", "green"]}>
+                    <VictoryBar
+                        data={data[0]}
+                        x="course"
+                        y="grade"
+                        labels={d => d.grade}
+                        style={{ labels: { fill: "white" } }}
+                        labelComponent={<VictoryLabel dy={30}/>}
+                    />
+                    <VictoryBar
+                        data={data[1]}
+                        x="course"
+                        y="grade"
+                    />
+                    <VictoryBar
+                        data={data[2]}
+                        x="course"
+                        y="grade"
+                        labels={d => d._y1}
+                        style={{ labels: { fill: "white" } }}
+                        labelComponent={<VictoryLabel dy={30}/>}
+                    />
+                    </VictoryStack>
+                    
+            )
+        }
     }
 
     render() {
 
         let data = this.formatDataSet(); 
-    // let data = [];
+
         if(this.props.loading){
             return (
                 <Container style={styles.main}>
@@ -37,14 +89,15 @@ export default class OverviewChart extends React.PureComponent {
 
         return (
             <Container style={styles.main}>
-                    <Dropdown
-                        label={`Select a Semester`}
-                        data={ this.props.allSemesters.map( semester => { return {value: semester} }) }
-                        selectedItemColor="#c4c4c4"
-                        itemColor="#fff"
-                        pickerStyle={{backgroundColor:"#050505"}}
-                        onChangeText={ value => this.props.setActiveSemester(value) }
-                    />
+                <Dropdown
+                    label={`Select a Semester`}
+                    data={ this.props.allSemesters.map( semester => { return {value: semester} }) }
+                    selectedItemColor="#c4c4c4"
+                    itemColor="#fff"
+                    pickerStyle={{backgroundColor:"#050505"}}
+                    onChangeText={ value => this.props.setActiveSemester(value) }
+                />
+
       <VictoryChart
         // domainPadding will add space to each side of VictoryBar to
         // prevent it from overlapping the axis
@@ -64,14 +117,8 @@ export default class OverviewChart extends React.PureComponent {
           tickFormat={(x) => (x)}
           domain={{y:[0,100]}}
         />
-        <VictoryBar
-            style={{ data: { fill: "#c43a31" }, label: {color: '#fff'} }}
-            data={data}
-            x="course"
-            y="grade"
-        />
- 
-      </VictoryChart>
+            {this.renderBars(data)}
+            </VictoryChart>
 
 
             </Container>
