@@ -39,7 +39,9 @@ export default class Register extends React.Component {
                 <Input secureTextEntry={true} onChangeText= { text => this.setState({password:text}) } />
             </Item>
           
-          <Button success large full onPress={ () => this.signInUserWithEmail() } style={{marginTop:40}}><Text>Log in</Text></Button>
+          <Button success large full onPress={ () => this.signInUserWithEmail() } style={{marginTop:40}}>
+            <Text>Log in</Text>
+          </Button>
         </Content>
       </Container>
 

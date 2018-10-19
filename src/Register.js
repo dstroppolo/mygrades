@@ -1,6 +1,7 @@
 import React from 'react';
 import Divider from './StyledComponents/Divider';
 import { Container, Content, Item, Input, Label, Button } from 'native-base';
+import { Text } from 'react-native';
 
 import AppHeader from './Header';
 import { auth } from './firebase';
@@ -12,15 +13,18 @@ export default class Register extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      name:'',
       password:'',
-      email: ''
+      email: '',
+      repeatPassword: '',
+      errors: []
     }
   }
 
   addNewUser = () => {
-    let { name, password, email } = this.state;
-    auth.createUserWithEmailAndPassword(email, password);
+    let { password, email } = this.state;
+    
+      auth.createUserWithEmailAndPassword(email, password);
+ 
   }
 
   render() {
@@ -28,14 +32,7 @@ export default class Register extends React.Component {
         <Container style={styles.main}>
         <AppHeader title="Register" />
 
-        <Content style={{marginLeft:40, marginRight:40}}>
-
-            <Item stackedLabel>
-                <Label>First Name</Label>
-                <Input onChangeText={text => this.setState({name:text})} />
-            </Item>
-            
-            <Divider />
+        <Content style={styles.wrapper}>
 
             <Item stackedLabel>
                 <Label>Email</Label>
@@ -48,8 +45,15 @@ export default class Register extends React.Component {
                 <Label>Password</Label>
                 <Input secureTextEntry={true} onChangeText= { text => this.setState({password:text}) } />
             </Item>
-          
-          <Button success full large title="Submit" onPress={ () => this.signInUserWithEmail() } containerStyles={{marginTop:40}}/>
+            
+            <Item stackedLabel>
+                <Label>Repeat Password</Label>
+                <Input secureTextEntry={true} onChangeText= { text => this.setState({repeatPassword:text}) } />
+            </Item>
+
+          <Button success full large title="Submit" onPress={ () => this.addNewUser() } style={{marginTop:40}}>
+            <Text>Register</Text>
+          </Button>
         </Content>
         </Container>
 

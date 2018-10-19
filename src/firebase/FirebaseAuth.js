@@ -2,7 +2,12 @@ import { auth } from './firebase';
 
 //signup
 export const createUserWithEmailAndPassword = (email, password) => {
-    return auth.createUserWithEmailAndPassword(email, password);
+
+    auth.createUserWithEmailAndPassword(email, password).then( response => {
+        console.log(response);    
+    }).catch( error => {
+        console.log(error);
+    });
 }
 
 //sign in
