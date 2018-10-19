@@ -3,11 +3,10 @@ import { auth } from './firebase';
 //signup
 export const createUserWithEmailAndPassword = (email, password) => {
 
-    auth.createUserWithEmailAndPassword(email, password).then( response => {
-        console.log(response);    
-    }).catch( error => {
-        console.log(error);
-    });
+    let result = auth.createUserWithEmailAndPassword(email, password).catch( err => {
+        return err;
+    })
+    return result;
 }
 
 //sign in
