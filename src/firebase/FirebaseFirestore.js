@@ -29,7 +29,7 @@ export const getGradeInfo = uid => {
 export const addNewAssignment = (assignmentName, className, semesterName, uid) => {
     let semesterDocRef = firestore.collection('userGradeInfo').doc(uid);
     return semesterDocRef.update({
-        [`${semesterName}.${className}.${assignmentName}`]: {}
+        [`${semesterName}.${className}.${assignmentName}`]: {grade: 0, weight: 0}
     })
     .then( () => 
         console.log('done')
@@ -64,4 +64,9 @@ export const addAssignmentGrade = (assignmentGrade, assignmentName, className, s
     .then( () => 
         console.log('done')
     )
+}
+
+export const addNewUser = uid => {
+    let userCollection = firestore.collection('userGradeInfo').doc(uid).set({});
+    return userCollection;
 }

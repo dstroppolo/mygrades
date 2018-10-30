@@ -7,7 +7,6 @@ export const getValuesByClass = classObject => {
         if(classObject[assg].grade){
             let grade = classObject[assg].grade || 0;
             let weight = (classObject[assg].weight)/100 || 0;
-            console.log(grade, weight)
             weightedAverage += weight * grade;
         }
     });

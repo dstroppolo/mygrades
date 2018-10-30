@@ -87,8 +87,11 @@ export default class HeaderTabs extends React.Component {
     
     getGradeInfo = async () => {
         if(this.props.user.uid){
-            let gradeData = await firestore.getGradeInfo(this.props.user.uid);
-            this.setState({gradeData: gradeData.data()});
+            let gradeData = {};
+            if(this.props.user){
+                gradeData = await firestore.getGradeInfo(this.props.user.uid).data();
+            }
+            this.setState({gradeData: gradeData});
         }
     }
 

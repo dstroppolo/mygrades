@@ -5,7 +5,8 @@ export const createUserWithEmailAndPassword = (email, password) => {
 
     let result = auth.createUserWithEmailAndPassword(email, password).catch( err => {
         return err;
-    })
+    });
+    
     return result;
 }
 
