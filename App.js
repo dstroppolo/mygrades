@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, SafeAreaView, ScrollView, Text } from 'react-native';
 console.disableYellowBox = true;
-import Register from './src/Register';
-import Logout from './src/Logout';
+import Register from './src/Landing/Register';
+import Logout from './src/Landing/Logout';
+import Login from './src/Landing/Login';
 import NewInfoInput from './src/ScheduleInput/NewInfoInput';
 import NewGradesInput from './src/GradesInput/NewGradesInput';
 import Results from './src/Results/ViewResults';
@@ -10,7 +11,6 @@ import Results from './src/Results/ViewResults';
 import { auth } from './src/firebase';
 
 import { createDrawerNavigator, createStackNavigator, DrawerItems } from 'react-navigation';
-import Login from './src/Login';
 
 export default class App extends React.Component {
 
@@ -57,7 +57,7 @@ export default class App extends React.Component {
 const CustomDrawerComponent = (props) => (
   <SafeAreaView style={{flex:1}}>
     <View style={{height:150, alignItems: 'center', justifyContent:'center'}}>
-      <Text>HELLOOOO</Text>
+      <Text style={{color:"#fff"}}>Track your grades</Text>
     </View>
     <ScrollView>
       <DrawerItems {...props} labelStyle={{color:"#fff"}} />
@@ -67,19 +67,7 @@ const CustomDrawerComponent = (props) => (
 
 
 const renderNavDrawer = uid => {
-  let routes = {
-    "View Results": {
-      screen: Results
-    },
-    
-    "Add Grades": {
-      screen: NewGradesInput
-    },
-    "Enter Schedule": {
-      screen: NewInfoInput
-    },
-
-  };
+  let routes = {};
 
   let drawerConfig = {
     contentComponent: CustomDrawerComponent,
@@ -92,12 +80,15 @@ const renderNavDrawer = uid => {
   };
 
   if(uid){
-    routes.Logout = Logout
+    routes["View Results"] = Results;
+    routes["Add Grades"] = NewGradesInput;
+    routes["Enter Schedule"] = NewInfoInput;
+    routes.Logout = Logout;
   }
 
   if(!uid){
-    routes.Login = Login
     routes.Register = Register;
+    routes.Login = Login
   }
 
   let dn = createDrawerNavigator(

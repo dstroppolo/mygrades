@@ -89,9 +89,9 @@ export default class HeaderTabs extends React.Component {
         if(this.props.user.uid){
             let gradeData = {};
             if(this.props.user){
-                gradeData = await firestore.getGradeInfo(this.props.user.uid).data();
+                gradeData = await firestore.getGradeInfo(this.props.user.uid);
             }
-            this.setState({gradeData: gradeData});
+            this.setState({gradeData: gradeData.data()});
         }
     }
 
@@ -107,7 +107,7 @@ export default class HeaderTabs extends React.Component {
                     activeInput={ this.state.activeSemester }
                     createNewInput={ this.addNewSemester }   
                     loading={ this.state.loading } 
-                    listInfo={Object.keys(this.state.gradeData)}
+                    listInfo={Object.keys(this.state.gradeData).filter( item => item !== 'defaultSemester') }
                 />
               </Tab>
               <Tab heading={ <TabHeading><Icon type="MaterialIcons" name="class" /><Text>Class</Text></TabHeading>}>

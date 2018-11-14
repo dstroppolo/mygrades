@@ -67,6 +67,6 @@ export const addAssignmentGrade = (assignmentGrade, assignmentName, className, s
 }
 
 export const addNewUser = uid => {
-    let userCollection = firestore.collection('userGradeInfo').doc(uid).set({});
+    let userCollection = firestore.collection('userGradeInfo').doc(uid).set({defaultSemester: ""});
     return userCollection;
 }

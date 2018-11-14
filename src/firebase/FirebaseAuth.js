@@ -3,9 +3,7 @@ import { auth } from './firebase';
 //signup
 export const createUserWithEmailAndPassword = (email, password) => {
 
-    let result = auth.createUserWithEmailAndPassword(email, password).catch( err => {
-        return err;
-    });
+    let result = auth.createUserWithEmailAndPassword(email, password);
     
     return result;
 }

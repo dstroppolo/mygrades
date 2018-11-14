@@ -19,8 +19,8 @@ export default class GradeInput extends React.Component {
 
     renderListItems = () => {
 
-        let info = this.props.scheduleData;
-        let semesters = Object.keys(info);
+        let info = this.props.scheduleData
+        let semesters = Object.keys(info).filter( item => item !== 'defaultSemester');
         
         //get the classes for each semester, and the works for each class
 
@@ -74,10 +74,13 @@ export default class GradeInput extends React.Component {
             <Container style={styles.main}>
                 <Content>
 
-                        { Object.keys(this.props.scheduleData).length > 0 ? 
+                        { this.props.scheduleData && Object.keys(this.props.scheduleData).length > 0 ? 
                         
                             <List>
-                                { this.renderListItems() }
+                                { Object.keys(this.props.scheduleData).length > 1 ?
+                                    this.renderListItems() :
+                                    <Text style={{color:"#fff"}}>Please enter your schedule first.</Text>
+                                } 
                             </List> :
                             <Spinner />
                         }
