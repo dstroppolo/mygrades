@@ -11,15 +11,14 @@ export const getValuesByClass = classObject => {
         }
     });
     
-    let maximum = (100-totalWeight)+weightedAverage;
-    return [weightedAverage, totalWeight, maximum];
+    return [weightedAverage, totalWeight-weightedAverage, 15];
 }
 
 export const formatValuesByClass = valuesArray => {
     //0 is current average, 1 is total weight, 2 is current maximum
     let firstBar = valuesArray[0];
-    let secondBar = valuesArray[1] - firstBar;
-    let thirdBar = (valuesArray[2])-(secondBar+firstBar);
+    let secondBar = valuesArray[1];
+    let thirdBar = valuesArray[2];
     return [firstBar, secondBar, thirdBar];
 }
 
